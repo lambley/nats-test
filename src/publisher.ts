@@ -8,4 +8,17 @@ const stan = nats.connect('ticketing', 'abc', {
 // after connection
 stan.on('connect', () => {
   console.log('Publisher connected to NATS');
+
+  // convert test data object to JSON - NATS can only send strings
+  const data = JSON.stringify({
+    id: '000001',
+    title: 'concert',
+    price: 20,
+  });
+
+  // publish data to NATS
+  // structure: publish(subject, data, callback after publish)
+  stan.publish('ticket:created', data, () => {
+    console.log('Event published');
+  });
 });
