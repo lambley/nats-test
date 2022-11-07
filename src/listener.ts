@@ -1,4 +1,4 @@
-import nats from 'node-nats-streaming';
+import nats, { Message } from 'node-nats-streaming';
 
 console.clear();
 
@@ -15,7 +15,12 @@ stan.on('connect', () => {
   const subscription = stan.subscribe('ticket:created');
 
   // on message (event) being emitted
-  subscription.on('message', (msg) => {
-    console.log(`${new Date().toLocaleTimeString()}: Message received`);
+  subscription.on('message', (msg: Message) => {
+    const data = msg.getData();
+
+    // check data is string
+    if (typeof data === 'string') {
+      console.log(`Received event #${msg.getSequence()}, with data: ${data}`);
+    }
   });
 });
