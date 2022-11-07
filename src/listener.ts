@@ -13,6 +13,12 @@ const stan = nats.connect('ticketing', randomBytes(4).toString('hex'), {
 stan.on('connect', () => {
   console.log('Listener connected to NATS');
 
+  // graceful close event
+  stan.on('close', () => {
+    console.log('NATS connection closed');
+    process.exit();
+  });
+
   // set options for subscription
   // set manual acknowledgement mode to true - in case db is down for example
   const options = stan.subscriptionOptions().setManualAckMode(true);
@@ -37,3 +43,7 @@ stan.on('connect', () => {
     msg.ack();
   });
 });
+
+// watch for interrupt or terminate signals and trigger close event
+process.on('SIGINT', () => stan.close());
+process.on('SIGTERM', () => stan.close());
