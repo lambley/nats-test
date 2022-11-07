@@ -13,9 +13,17 @@ const stan = nats.connect('ticketing', randomBytes(4).toString('hex'), {
 stan.on('connect', () => {
   console.log('Listener connected to NATS');
 
+  // set options for subscription
+  // set manual acknowledgement mode to true - in case db is down for example
+  const options = stan.subscriptionOptions().setManualAckMode(true);
+
   // object to listen for
   // subscribe(channel, queueGroup)
-  const subscription = stan.subscribe('ticket:created', 'orders-service-queue-group');
+  const subscription = stan.subscribe(
+    'ticket:created',
+    'orders-service-queue-group',
+    options
+  );
 
   // on message (event) being emitted
   subscription.on('message', (msg: Message) => {
