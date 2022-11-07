@@ -15,4 +15,10 @@ To access the NATS pod locally, setup  port-forwarding on the local NATS pod e.g
 kubectl port-forward nats-depl-6fc6ff8448-dpjmk 4222:4222
 ```
 
+Expose whatever ports are set up in the k8s deployment config (in this case, 4222 and 8222)
+
+Navigate to `http://localhost:[monitoring_port]/streaming` to view stats on running NATS server
+
+To view subscriptions, navigate to http://localhost:8222/streaming/channelsz?subs=1
+
 Running `npm run publish` after port-forwarding is setup, the test app will work
