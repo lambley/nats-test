@@ -3,6 +3,7 @@ import nats from 'node-nats-streaming';
 console.clear();
 
 // often referred to as stan in documentation for the client
+// connect(cluster_id, client_id, options)
 const stan = nats.connect('ticketing', 'abc', {
   url: 'http://localhost:4222',
 });
