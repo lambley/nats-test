@@ -5,6 +5,8 @@ Small project to learn how to use NATS streaming server, built with node.js/ts
 `npm run publish` - run event publisher
 `npm run listen` - run event listener
 
+Type `rs` in terminal windows running publisher or listener to restart.
+
 ## Port-forwarding
 
 To access the NATS pod locally, setup  port-forwarding on the local NATS pod e.g. running on command line:
