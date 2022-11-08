@@ -21,7 +21,11 @@ stan.on('connect', () => {
 
   // set options for subscription
   // set manual acknowledgement mode to true - in case db is down for example
-  const options = stan.subscriptionOptions().setManualAckMode(true);
+  // setDeliveryAllAvailable - sends all previously sent events - one approach to account for service downtime
+  const options = stan
+    .subscriptionOptions()
+    .setManualAckMode(true)
+    .setDeliverAllAvailable();
 
   // object to listen for
   // subscribe(channel, queueGroup)
