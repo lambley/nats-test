@@ -25,8 +25,8 @@ stan.on('connect', () => {
   const options = stan
     .subscriptionOptions()
     .setManualAckMode(true)
-    .setDeliverAllAvailable();
-
+    .setDeliverAllAvailable()
+    .setDurableName('test-service');
   // object to listen for
   // subscribe(channel, queueGroup)
   const subscription = stan.subscribe(
