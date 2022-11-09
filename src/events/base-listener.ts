@@ -1,10 +1,16 @@
 import { Message, Stan } from 'node-nats-streaming';
+import { Subjects } from './subjects';
 
-export abstract class Listener {
+interface Event {
+  subject: Subjects;
+  data: any;
+}
+
+export abstract class Listener<T extends Event> {
   // abstract classes for subclasses to define
-  abstract subject: string;
+  abstract subject: T['subject'];
   abstract queueGroupName: string;
-  abstract onMessage(data: any, msg: Message): void;
+  abstract onMessage(data: T['data'], msg: Message): void;
 
   // asssumes instance of client has already successfully connected
   private client: Stan;
