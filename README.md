@@ -22,3 +22,11 @@ Navigate to `http://localhost:[monitoring_port]/streaming` to view stats on runn
 To view subscriptions, navigate to http://localhost:8222/streaming/channelsz?subs=1
 
 Running `npm run publish` after port-forwarding is setup, the test app will work
+
+## Refactoring Listener module to be reusable
+
+There's a fair amount of setup required to start a NATS server, run a listener, setup subscription options, etc. and it is best to refactor the listener logic into a seperate class.
+
+See below for a class diagram for the a Listener abstract class:
+![Untitled Diagram drawio (2)](https://user-images.githubusercontent.com/42571140/200821997-bb1641e4-f5ac-406e-ba83-f633bc7185f7.png)
+
