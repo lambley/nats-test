@@ -30,3 +30,4 @@ There's a fair amount of setup required to start a NATS server, run a listener, 
 See below for a class diagram for the a Listener abstract class:
 ![Untitled Diagram drawio (2)](https://user-images.githubusercontent.com/42571140/200821997-bb1641e4-f5ac-406e-ba83-f633bc7185f7.png)
 
+Abstract Class Listener will be used to create subclass Listeners for specific channels. e.g. `ticket:created` or `order:updated`
