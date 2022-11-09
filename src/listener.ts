@@ -19,33 +19,8 @@ stan.on('connect', () => {
     process.exit();
   });
 
-  // set options for subscription
-  // set manual acknowledgement mode to true - in case db is down for example
-  // setDeliveryAllAvailable - sends all previously sent events - one approach to account for service downtime
-  const options = stan
-    .subscriptionOptions()
-    .setManualAckMode(true)
-    .setDeliverAllAvailable()
-    .setDurableName('test-service');
-  // object to listen for
-  // subscribe(channel, queueGroup)
-  const subscription = stan.subscribe(
-    'ticket:created',
-    'orders-service-queue-group',
-    options
-  );
-
-  // on message (event) being emitted
-  subscription.on('message', (msg: Message) => {
-    const data = msg.getData();
-
-    // check data is string
-    if (typeof data === 'string') {
-      console.log(`Received event #${msg.getSequence()}, with data: ${data}`);
-    }
-
-    msg.ack();
-  });
+  // use TicketCreatedListener
+  new TicketCreatedListener(stan).listen();
 });
 
 // watch for interrupt or terminate signals and trigger close event
@@ -56,7 +31,7 @@ abstract class Listener {
   // abstract classes for subclasses to define
   abstract subject: string;
   abstract queueGroupName: string;
-  abstract onMessage(data: any, msg: Message): void
+  abstract onMessage(data: any, msg: Message): void;
 
   // asssumes instance of client has already successfully connected
   private client: Stan;
@@ -101,5 +76,16 @@ abstract class Listener {
     return typeof data === 'string'
       ? JSON.parse(data)
       : JSON.parse(data.toString('utf8'));
+  }
+}
+
+class TicketCreatedListener extends Listener {
+  subject = 'ticket:created';
+  queueGroupName = 'payment-service';
+
+  onMessage(data: any, msg: Message) {
+    console.log('Event data:', data);
+
+    msg.ack();
   }
 }
