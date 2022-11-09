@@ -28,6 +28,7 @@ Running `npm run publish` after port-forwarding is setup, the test app will work
 There's a fair amount of setup required to start a NATS server, run a listener, setup subscription options, etc. and it is best to refactor the listener logic into a seperate class.
 
 See below for a class diagram for the a Listener abstract class:
-![Untitled Diagram drawio (2)](https://user-images.githubusercontent.com/42571140/200821997-bb1641e4-f5ac-406e-ba83-f633bc7185f7.png)
+![Untitled Diagram drawio (3)](https://user-images.githubusercontent.com/42571140/200827595-165b1788-e161-4454-a228-d6954d9d612c.png)
+
 
 Abstract Class Listener will be used to create subclass Listeners for specific channels. e.g. `ticket:created` or `order:updated`
